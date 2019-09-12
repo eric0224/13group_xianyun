@@ -2,20 +2,20 @@
     <div class="function-bar">
         <el-row type="flex" justify="center">
             <div class="comment">
-                <span class="el-icon-edit"></span>
-                <i >评论(88)</i>
+                <span class="iconfont iconpinglun"></span>
+                评论<i v-if="commentAcount != 0">({{commentAcount}})</i>
             </div>
-            <div class="star">
-                <span class="el-icon-star-off"></span>
+            <div class="star" @click="handleStar">
+                <span class="iconfont iconstar1" style="font-size:36px"  ></span>
                 <i>收藏</i>
             </div>
             <div class="share">
-                <span class="el-icon-share"></span>
+                <span class="iconfont iconfenxiang"></span>
                 <i>分享</i>
             </div>
             <div class="like">
-                <span class="el-icon-success"></span>
-                <i>点赞(88)</i>
+                <span class="iconfont iconding"></span>
+                点赞<i v-if="data.like">({{data.like}})</i>
             </div>
         </el-row>
     </div>
@@ -23,7 +23,25 @@
 
 <script>
 export default {
-    
+    data(){
+        return{
+            data:{},
+            commentAcount:0,
+        }
+
+    },
+    methods:{
+        handleStar(){}
+    },
+    mounted(){
+        //从本地获取文章详情总数据
+       setTimeout(()=>{
+        this.data = this.$store.state.postDetail.postDetail
+        // console.log(this.data)
+        this.commentAcount = this.data.comments.length
+
+       },10)
+    }
 }
 </script>
 
@@ -33,20 +51,33 @@ export default {
     padding: 15px 10px;
     margin: 20px 0;
 
-    .comment,.star,.share,.like{
-       width: 55px;
-       height: 55px;      
-       font-size: 14px;
-       color:#bbb;
-       text-align: center; 
-       margin: 0 5px;
-       span{
-           font-size: 38px;
-           display: block;
-           color:#ffa500; 
+        .comment,.star,.share,.like{
+           width: 60px;
+           height: 60px;      
+           font-size: 14px;
+           color:#bbb;
+           text-align: center; 
+           margin:0 5px;
+           padding-bottom: 10px;
+           cursor: pointer;
+                        
+           span{
+               width: 33px;
+               height: 33px;
+               margin: 0 auto;
+               font-size: 28px;
+               display: block;
+               color:#ffa500;
+               margin-bottom: 5px;          
+            }
+
+            // i{
+            //     display: block;
+            //     margin-top: 5px;
+            // }
         }
 
-    }
+    
 
 }
 </style>
