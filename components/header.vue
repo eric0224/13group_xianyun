@@ -42,6 +42,7 @@ export default {
       const {commit} = this.$store;
       commit('user/clearUserInfo')
       this.$message.success('退出成功')
+      this.$router.push('/')
     }
   }
 };

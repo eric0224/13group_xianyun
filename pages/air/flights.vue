@@ -65,7 +65,7 @@ export default {
     };
   },
   methods: {
-    //获取数据
+    //获取数据 
     getData() {
       this.$axios({
         url: "/airs",

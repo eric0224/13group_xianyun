@@ -13,7 +13,7 @@
                 <span class="iconfont iconfenxiang"></span>
                 <i>分享</i>
             </div>
-            <div class="like">
+            <div class="like" @click="handleLike">
                 <span class="iconfont iconding"></span>
                 点赞<i v-if="data.like">({{data.like}})</i>
             </div>
@@ -31,16 +31,43 @@ export default {
 
     },
     methods:{
-        handleStar(){}
+        //获取数据
+        init(){
+           //从本地获取文章详情总数据
+          setTimeout(()=>{
+          this.data = this.$store.state.postDetail.postDetail
+          // console.log(this.data)
+          this.commentAcount = this.data.comments.length
+          },10)  
+        },
+
+        //收藏文章
+        handleStar(){
+            this.$axios({
+                url:'/posts/star',
+                params:{id:this.data.id},
+                headers: {Authorization:` Bearer ${this.$store.state.user.userInfo.token}`}
+            }).then((res)=>{
+                console.log(res)
+                this.$message.success(res.data.message)
+            })
+        },
+
+        //点赞功能
+        handleLike(){
+            this.$axios({
+                url:'/posts/like',
+                params:{id:this.data.id},
+                headers:{Authorization:` Bearer ${this.$store.state.user.userInfo.token}`}
+            }).then((res)=>{
+               
+                this.$message.success(res.data.message)
+                this.init()
+            })
+        }
     },
     mounted(){
-        //从本地获取文章详情总数据
-       setTimeout(()=>{
-        this.data = this.$store.state.postDetail.postDetail
-        // console.log(this.data)
-        this.commentAcount = this.data.comments.length
-
-       },10)
+       this.init()
     }
 }
 </script>
@@ -70,14 +97,6 @@ export default {
                color:#ffa500;
                margin-bottom: 5px;          
             }
-
-            // i{
-            //     display: block;
-            //     margin-top: 5px;
-            // }
         }
-
-    
-
 }
 </style>
