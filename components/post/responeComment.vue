@@ -2,7 +2,7 @@
   <div class="responeCom">
     <item :data="data.parent" v-if="data.parent" />
     <!-- 头部信息 -->
-    <el-row class="comment-top" type="flex" justify="space-between">
+    <el-row class="comment-top" type="flex" justify="space-between" style="margin-top:5px">
       <div class="userInfo">
         <!-- <img :src="`${$axios.defaults.baseURL}${data.account.defaultAvatar}`" alt /> -->
         <span>{{data.account.nickname}}</span>
@@ -10,18 +10,18 @@
       </div>
       <span>{{data.level}}</span>
     </el-row>
-
+ 
     <!-- 文本内容 -->
     <div class="comment-text">{{data.content}}</div>
     <!-- 图片展示区 -->
     <el-row class="show-pic" type="flex" justify="start">
-      <div class="picture" v-for="(item,index) in data.pics" :key="index">
-        <img :src="item" />
+      <div class="picture" v-for="(item,index) in data.pics" :key="index" style="padding:5px;border:1px dashed #ddd;border-radius: 8%;">
+        <img :src="`${$axios.defaults.baseURL}${item.url}`" style="width:80px;height:80px" />
       </div>
     </el-row>
     <!-- 回复 -->
     <div class="respone">
-      <a href="javaScript:viod(0)">回复</a>
+      <a href="#maodian" @click="sendData">回复</a>
     </div>
   </div>
 </template>
@@ -38,6 +38,12 @@ export default {
   },
   filters: {
     timeFormat
+  },
+  methods:{
+    sendData(){
+
+      this.$emit('getComment')
+    }
   }
 };
 </script>
@@ -47,19 +53,19 @@ export default {
   border: 1px solid #ddd;
   background-color: #f9f9f9;
   padding: 10px;
-  margin-bottom: 15px;
+  // margin-bottom: 15px;
 
   .comment-top {
     font-size: 12px;
     margin-bottom: 10px;
     .userInfo {
-      img {
-        vertical-align: middle;
-        width: 15px;
-        // height: 14px;
-        border-radius: 50%;
-        box-sizing: border-box;
-      }
+      // img {
+      //   vertical-align: middle;
+      //   width: 15px;
+      //   // height: 14px;
+      //   border-radius: 50%;
+      //   box-sizing: border-box;
+      // }
     }
 
     i {
@@ -73,13 +79,13 @@ export default {
 
     .parents-content {
       border: 1px solid #ddd;
-      background-color: #eee;
+      background-color: #f9f9f9;
     }
     // .comment-text {
     //   margin-bottom: 10px;
     // }
 
-    .picture {
+   /deep/ .picture {
       width: 90px;
       height: 90px;
       line-height: 90px;
