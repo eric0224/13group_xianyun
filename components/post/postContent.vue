@@ -59,7 +59,7 @@ export default {
       url: "/posts",
       params: { id }
     }).then(res => {
-   
+      // console.log(res)
       const { data } = res.data;
       // 赋值给总数据
       this.detailData = data[0];

@@ -68,6 +68,7 @@ export default {
     handleClose(){
       //清空store中的nickname
      this.userInfo.nickname = ''
+    //  this.$emit('updateComments')
     },
 
     //文件上传成功的事件

@@ -30,10 +30,10 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="currentPage"
-          :page-sizes="[100, 200, 300, 400]"
+          :page-sizes="[2, 4, 6, 8]"
           :page-size="100"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="400"
+          :total="total"
         ></el-pagination>
       </div>
 
@@ -55,8 +55,9 @@ export default {
       //存储评论总数据
       commentsData: [],
       currentPage: 0, //当前页
-      pageSize:54, //每页条数
-      userInfo:{} // 回复评论的id
+      pageSize:2, //每页条数
+      userInfo:{}, // 回复评论的id
+      total:0 //评论总条数
     };
   },
   components: {
@@ -65,8 +66,13 @@ export default {
     Comment,
     CommentBoard
   },
+  watch:{
+    $route(){
+      this.getData()
+    }
+  },
   methods: {
-    //获取数据
+    //获取评论数据
     getData() {
       setTimeout(() => {
         const { id } = this.$route.query;
@@ -74,9 +80,10 @@ export default {
           url: "/posts/comments",
           params: { post: id, _limit: this.pageSize, _start: this.currentPage }
         }).then(res => {
-          console.log(res)
+          // console.log(res)
           // 赋值给总数据
           this.commentsData = res.data.data;
+          this.total = res.data.total
         });
       }, 10);
     },
@@ -92,10 +99,18 @@ export default {
       // console.log(this.followId)
     },
     //每页条数变化触发的事件
-    handleSizeChange() {},
+    handleSizeChange(val) {
+      // console.log(val)
+      this.pageSize = val
+      this.getData()
+    },
 
     //当前页变化触发的事件
-    handleCurrentChange() {}
+    handleCurrentChange(val) {
+      console.log(val)
+      this.currentPage = val
+      this.getData()
+    }
   },
   mounted() {
     this.getData()
