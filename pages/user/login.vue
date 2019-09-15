@@ -26,7 +26,7 @@ import register from '@/components/user/register'
 export default {
     data(){
         return{
-            current:1
+            current:1,
         }
     },
     components:{

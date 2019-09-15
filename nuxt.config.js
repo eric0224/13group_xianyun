@@ -13,7 +13,7 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', type: 'text/css', href: '//at.alicdn.com/t/font_1168872_ehvuah8v57g.css'} // 新增全局字体样式
+      { rel: 'stylesheet', type: 'text/css', href: '//at.alicdn.com/t/font_1168872_ehvuah8v57g.css' } // 新增全局字体样式
     ]
   },
   /*
@@ -25,7 +25,11 @@ export default {
   */
   css: [
     'element-ui/lib/theme-chalk/index.css',
-    'assets/main.css' // 新增自定义的页面过渡样式（文件来自3.4.1）
+    'assets/main.css',
+    // 新增自定义的页面过渡样式（文件来自3.4.1）
+    'quill/dist/quill.snow.css',
+    'quill/dist/quill.bubble.css',
+    'quill/dist/quill.core.css'
   ],
   /*
   ** Plugins to load before mounting the App
@@ -33,8 +37,14 @@ export default {
   plugins: [
     '@/plugins/element-ui',
     { src: '~/plugins/localStorage.js', ssr: false },
-    '@/plugins/axios'//调用插件
+    '@/plugins/axios',//调用插件
+
+    { src: "~plugins/vue-quill-editor.js", ssr: false },
+
   ],
+
+
+  // some nuxt config...
   /*
   ** Nuxt.js dev-modules
   */
@@ -52,7 +62,7 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-     // See https://github.com/nuxt-community/axios-module#options
+    // See https://github.com/nuxt-community/axios-module#options
     // baseURL: "http://157.122.54.189:9095" // 新增备用地址
     baseURL: "http://127.0.0.1:1337" // 新增axios默认请求路径 
   },
@@ -64,7 +74,7 @@ export default {
     /*
     ** You can extend webpack config here
     */
-    extend (config, ctx) {
+    extend(config, ctx) {
     }
   }
 }
