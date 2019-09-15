@@ -4,12 +4,12 @@
     <div class="xsl-hotel">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item>酒店</el-breadcrumb-item>
-        <el-breadcrumb-item>南京市酒店预订</el-breadcrumb-item>
+        <el-breadcrumb-item>{{$store.state.hotel.name}}酒店预订</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!-- 表单 -->
     <div>
-      <hotelForm :data="hotelCity"></hotelForm>
+      <hotelForm></hotelForm>
     </div>
     <!-- 筛选部分 -->
     <creenForm></creenForm>
@@ -22,24 +22,13 @@ import hotelForm from "../../components/hotel/hotelform";
 export default {
   data() {
     return {
-      // data的数据
-      hotelCity:{},
-      // 总数据
-      hotelData:{},
+      
       // 表单数据
       city: ""
     };
   },
   mounted(){
-    this.$axios({
-      url:'/hotels'
-    }).then(res =>{
-      console.log(res)
-      // 总数据
-      this.hotelData = res
-      // data里面的数据
-      this.hotelCity = res.data.data
-    })
+
   },
   components: {
     hotelForm,
