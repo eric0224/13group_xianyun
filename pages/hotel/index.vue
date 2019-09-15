@@ -11,10 +11,13 @@
     <div>
       <hotelForm :data="hotelCity"></hotelForm>
     </div>
+    <!-- 筛选部分 -->
+    <creenForm></creenForm>
   </div>
 </template>
 
 <script>
+import creenForm from '../../components/hotel/screenform'
 import hotelForm from "../../components/hotel/hotelform";
 export default {
   data() {
@@ -39,7 +42,8 @@ export default {
     })
   },
   components: {
-    hotelForm
+    hotelForm,
+    creenForm
   }
 };
 </script>

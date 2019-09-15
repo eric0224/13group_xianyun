@@ -2,7 +2,13 @@
   <div class="xsl-main">
     <!-- 表单 -->
     <div class="xsl-form-item">
-      <el-input v-model="city" class="xsl-input" placeholder="目的地"></el-input>
+      <el-autocomplete
+        placeholder="目的地"
+        :fetch-suggestions="queryDepartSearch"
+        v-model="name"
+        @select="handleDepartSelect"
+        @blur="defaultDepCity"
+      ></el-autocomplete>
 
       <el-date-picker
         type="daterange"
@@ -13,7 +19,7 @@
 
       <el-input placeholder="人数未定" suffix-icon="el-input__icon iconfont iconuser"></el-input>
 
-      <el-button type="primary" class="price">查看价格</el-button>
+      <el-button type="primary" class="price" @click="searchFight">查看价格</el-button>
     </div>
     <!--区域部分 -->
     <div class="xsl-wenzi">
@@ -110,6 +116,34 @@ export default {
       default: {}
     }
   },
+  methods:{
+    // 查找价格按钮
+    searchFight(){
+      this.$axios({
+        url:'/cities',
+        params:this.name
+      }).then(res =>{
+        
+      })
+    },
+    // 目的地输入框的值
+    queryDepartSearch(value,cb){
+      // 判断如果输入框为0
+      if(!value){
+        // 传递空数组，不会显示
+        cb([]);
+        return;
+      }
+    },
+    // 目的地下拉选中触发
+    handleDepartSelect(item){
+
+    },
+    // 搜索目的地失去焦点
+    defaultDepCity(){
+      
+    }
+  },
   mounted() {
     // 等待下面url加载完毕之后再执行
     window.onLoad = function() {
@@ -180,7 +214,18 @@ export default {
         title: "7天连锁酒店(南京长江大桥店)",
         content: `<div style="width:20px; height:20px; background-color:#409eff; border-radius: 50%; color:#fff;line-height:20px; text-align:center;">10</div>`
       });
-      map.add([marker1, marker2, marker3, marker4, marker5, marker6, marker7,marker8,marker9,marker10]);
+      map.add([
+        marker1,
+        marker2,
+        marker3,
+        marker4,
+        marker5,
+        marker6,
+        marker7,
+        marker8,
+        marker9,
+        marker10
+      ]);
     };
 
     var url =
@@ -193,7 +238,7 @@ export default {
   data() {
     return {
       // 表单数据
-      city: ""
+      name: ""
     };
   }
 };
@@ -230,7 +275,7 @@ export default {
     color: #ffff;
     position: absolute;
     top: 325px;
-    left: 481px;
+    left: 490px;
   }
   .xsl-wenzi {
     width: 1000px;
