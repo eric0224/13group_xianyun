@@ -15,11 +15,27 @@
         <PostContent/>
 
         <!-- 功能区 -->
-        <FunctionBar/>
+        <!-- <FunctionBar/> -->
 
-        <!-- 评论区 -->
-        <Comment/>
+        <!-- 发表评论区 -->
+        <Comment/>     
+
+        <div class="comments" > 
+          <!-- 评论展示区 -->
+          <CommentBoard v-for="(item,index) in commentsData" :key="index" :data="item"/>
+        </div>
+
         <!-- 分页功能 -->
+        <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[100, 200, 300, 400]"
+        :page-size="100"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="400">
+    </el-pagination>
+
 
       </div>
 
@@ -34,11 +50,42 @@
 <script>
 import PostContent from '@/components/post/postContent';
 import DetailAside from '@/components/post/detailAside';
-import FunctionBar from '@/components/post/functionBar';
-import Comment from '@/components/post/comment'
+// import FunctionBar from '@/components/post/functionBar';
+import Comment from '@/components/post/comment';
+import CommentBoard from '@/components/post/commentBoard'
 export default {
+    data(){
+      return{
+        //存储评论总数据
+        commentsData:[],
+        currentPage:1,//当前页
+        pageSize:2 //每页条数
+      }
+    },
     components:{
-        PostContent,DetailAside,FunctionBar,Comment
+        PostContent,DetailAside,Comment,CommentBoard
+    },
+    methods:{
+      //每页条数变化触发的事件
+      handleSizeChange(){},
+
+      //当前页变化触发的事件
+      handleCurrentChange(){}
+    },
+    mounted(){
+      setTimeout(()=>{
+        const {id} = this.$route.query
+      this.$axios({
+        url:'/posts/comments',
+        params:{post:id,_limit:this.pageSize,_start:this.currentPage}
+      }).then((res)=>{
+        // console.log(res)
+        // 赋值给总数据
+        this.commentsData = res.data.data
+      })
+
+      },10)
+      
     }
 };
 </script>
@@ -58,6 +105,11 @@ export default {
          margin-bottom: 5px;
        }
 
+       .comments{
+         width: 100%;
+         border: 1px solid #ddd;
+         margin-bottom: 10px;
+       } 
     }
 
 
