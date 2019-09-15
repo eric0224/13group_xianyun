@@ -6,18 +6,18 @@
       </div>
       <p>分享你的个人游记，让更多人看到哦！</p>
       <el-input v-model="input" placeholder="请输入标题"></el-input>
-      <template>
-  <section class="container">
-    <div class="quill-editor" 
-         :content="content"
-         @change="onEditorChange($event)"
-         @blur="onEditorBlur($event)"
-         @focus="onEditorFocus($event)"
-         @ready="onEditorReady($event)"
-         v-quill:myQuillEditor="editorOption">
-    </div>
-  </section>
-</template>
+      <!-- <template>
+        <section class="container">
+          <div class="quill-editor" 
+              :content="content"
+              @change="onEditorChange($event)"
+              @blur="onEditorBlur($event)"
+              @focus="onEditorFocus($event)"
+              @ready="onEditorReady($event)"
+              v-quill:myQuillEditor="editorOption">
+          </div>
+        </section>
+      </template> -->
 
       <div class="location">
         <span>

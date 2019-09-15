@@ -7,7 +7,6 @@
         :fetch-suggestions="queryDepartSearch"
         v-model="name"
         @select="handleDepartSelect"
-        @blur="defaultDepCity"
       ></el-autocomplete>
 
       <el-date-picker
@@ -27,14 +26,14 @@
         <el-col :span="12">
           <el-row type="flex" justify="space-between" style="margin-bottom: 20px;">
             <el-col :span="4">区域 :</el-col>
-            <el-col :span="20">
+            <el-col :span="20" class="xsl-lianjiekuang">
               <nuxt-link to="#" class="xsl-chaolinajie">全部</nuxt-link>
               <nuxt-link
                 to="#"
-                v-for="(item,index) in data"
+                v-for="(item,index) in Cityluduan"
                 :key="index"
                 class="xsl-chaolinajie"
-              >{{item.area}}</nuxt-link>
+              >{{item.name}}</nuxt-link>
             </el-col>
           </el-row>
           <el-row type="flex" justify="space-between" style="margin-bottom: 20px;">
@@ -107,44 +106,106 @@
 
 <script>
 export default {
-  props: {
-    //data表示组件可以接受的属性
-    data: {
-      //type不能改变，用于声明属性的类型
-      type: Object,
-      //如果调用对象不传值，采用default的默认值
-      default: {}
-    }
+  data() {
+    return {
+      Cityluduan: [],
+      // 总数据
+      hotelData: [],
+      // 城市id
+      Citycode: "",
+      name: "南京"
+    };
   },
-  methods:{
-    // 查找价格按钮
-    searchFight(){
-      this.$axios({
-        url:'/cities',
-        params:this.name
-      }).then(res =>{
-        
-      })
-    },
+  methods: {
     // 目的地输入框的值
-    queryDepartSearch(value,cb){
-      // 判断如果输入框为0
-      if(!value){
-        // 传递空数组，不会显示
-        cb([]);
+    queryDepartSearch(value, cb) {
+      if (!value) {
         return;
       }
+      // 判断如果输入框为0
+      this.$axios({
+        url: "/cities",
+        params: {
+          name: value
+        }
+      }).then(res => {
+        this.Cityluduan = res.data.data[0].scenics;
+
+        // 添加属性
+        const { data } = res.data;
+
+        const newData = [];
+        data.forEach(v => {
+          v.value = v.name;
+          newData.push(v);
+          this.$store.commit("hotel/setInfoData", v.value);
+        });
+        this.$store.commit("hotel/setTotalPrice", data);
+        cb(newData);
+      });
+
+      // console.log(this.$store.state.hotel.hotelCity[0].id);
+
+      this.$axios({
+        url: `/hotels?&city=${this.$store.state.hotel.hotelCity[0].id}`
+      }).then(res => {
+        console.log(res);
+        // 总数据
+        this.$store.commit("hotel/sethotelData", res.data);
+        // data里面的数据,存到vuex到另外一个组件渲染
+        // this.Cityluduan = res.data.data;
+        console.log(this.$store.state.hotel.hotelData.data);
+      });
     },
     // 目的地下拉选中触发
-    handleDepartSelect(item){
-
+    handleDepartSelect() {
+      this.$axios({
+        url: `/hotels?&city=${this.$store.state.hotel.hotelCity[0].id}`
+      }).then(res => {
+        // console.log(res);
+        // 总数据
+        this.$store.commit("hotel/sethotelData", res.data);
+        // data里面的数据,存到vuex到另外一个组件渲染
+        // this.Cityluduan = res.data.data;
+        // console.log(this.$store.state.hotel.hotelData.data);
+      });
     },
-    // 搜索目的地失去焦点
-    defaultDepCity(){
-      
+    // 查找价格按钮
+    searchFight() {
+      if (!this.name) {
+        return;
+      }
+      this.$axios({
+        url: `/hotels?&city=${this.$store.state.hotel.hotelCity[0].id}`
+      }).then(res => {
+        // console.log(res);
+        // 总数据
+        this.$store.commit("hotel/sethotelData", res.data);
+        // data里面的数据,存到vuex到另外一个组件渲染
+        // this.Cityluduan = res.data.data;
+        // console.log(this.$store.state.hotel.hotelData.data);
+      });
     }
   },
+
   mounted() {
+    this.$axios({
+      url: "/cities",
+      params: {
+        name: this.name
+      }
+    }).then(res => {
+      this.Cityluduan = res.data.data[0].scenics;
+    });
+    // 一加载页面直接显示南京市
+    this.$axios({
+      url: `/hotels?&city=74`
+    }).then(res => {
+      console.log(res);
+      // 总数据
+      this.$store.commit("hotel/sethotelData", res.data);
+      this.$store.commit("hotel/setInfoData", res.data.data[0].city.name);
+    });
     // 等待下面url加载完毕之后再执行
     window.onLoad = function() {
       // 创建地图， container是容器的id
@@ -234,12 +295,6 @@ export default {
     jsapi.charset = "utf-8";
     jsapi.src = url;
     document.head.appendChild(jsapi);
-  },
-  data() {
-    return {
-      // 表单数据
-      name: ""
-    };
   }
 };
 </script>
@@ -274,8 +329,8 @@ export default {
     text-align: center;
     color: #ffff;
     position: absolute;
-    top: 325px;
-    left: 490px;
+    top: 305px;
+    left: 480px;
   }
   .xsl-wenzi {
     width: 1000px;
@@ -283,11 +338,19 @@ export default {
     .xsl-ziti {
       font-size: 14px;
       color: #666666;
-      .xsl-chaolinajie {
-        padding-right: 10px;
-        &:hover {
-          color: #0099ff;
-          text-decoration: underline;
+      .xsl-lianjiekuang {
+        max-width: 430px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        display: block;
+        float: left;
+        .xsl-chaolinajie {
+          padding-right: 10px;
+          &:hover {
+            color: #0099ff;
+            text-decoration: underline;
+          }
         }
       }
     }
