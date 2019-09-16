@@ -10,32 +10,33 @@
       <span>{{data.level}}</span>
     </el-row>
     <!-- 评论内容 -->
-    <div class="comment-content" @mouseenter="isShow=true" @mouseleave="isShow= false">
+    <div class="comment-content" >
       <div class="parent-content" v-if="data.parent">
         <!-- 跟帖父级内容 -->
         <!-- <item :data="data.parent" v-if="data.parent" /> -->
-        <ResponeComment :data="data.parent" @getComment="getComment"/>
+        <ResponeComment :data="data.parent" @getComment="getComment" />
       </div>
 
-      <!-- 文本内容 -->
-      <div class="comment-text">{{data.content}}</div>
-      <!-- 图片展示区 -->
-      <el-row class="show-pic" type="flex" justify="start">
-        <div class="picture" v-for="(item,index) in data.pics" :key="index">
-          <img :src="`${$axios.defaults.baseURL}${item.url}`" @click="picVisible(item.url)"/>
-          
+      <div @mouseenter="isShow=true" @mouseleave="isShow= false" style="margin-top:5px">
+        <!-- 文本内容 -->
+        <div class="comment-text">{{data.content}}</div>
+        <!-- 图片展示区 -->
+        <el-row class="show-pic" type="flex" justify="start">
+          <div class="picture" v-for="(item,index) in data.pics" :key="index">
+            <img :src="`${$axios.defaults.baseURL}${item.url}`" @click="picVisible(item.url)" />
+          </div>
+        </el-row>
+        <!-- 回复 -->
+        <div class="respone">
+          <a @click="handleRespone(data.id)" href="#maodian" v-show="isShow">回复</a>
         </div>
-      </el-row>
-      <!-- 回复 -->
-      <div class="respone">
-        <a @click="handleRespone(data.id)" href="#maodian" v-show="isShow">回复</a>
       </div>
     </div>
     <!-- diaolog图片展示 -->
     <el-dialog :visible.sync="dialogVisible" style="padding:10px 5px" width="50%">
-       <img :src="`${$axios.defaults.baseURL}${this.bigPic}`" width="100%"/>
+      <img :src="`${$axios.defaults.baseURL}${this.bigPic}`" width="100%" />
     </el-dialog>
-  </div> 
+  </div>
 </template>
 
 <script>
@@ -49,16 +50,16 @@ export default {
       default: {}
     }
   },
-  data(){
-    return{
-      isShow:false,
-      userInfo:{
-        nickname:'',
-        id:0
+  data() {
+    return {
+      isShow: false,
+      userInfo: {
+        nickname: "",
+        id: 0
       },
-      dialogVisible:false,
-      bigPic:''
-    }
+      dialogVisible: false,
+      bigPic: ""
+    };
   },
   components: {
     ResponeComment
@@ -67,23 +68,25 @@ export default {
     timeFormat
   },
   methods: {
-   //显示dialog框
-   picVisible(url){
-     this.dialogVisible = true
-     this.bigPic = url
-   },
-
+    //显示dialog框
+    picVisible(url) {
+      this.dialogVisible = true;
+      this.bigPic = url;
+    },
 
     //这个事件用于给子组件传递数据
-    getComment(){},
-
+    getComment(obj) {
+      this.userInfo = obj
+      // 给父组件传递回复的id、
+      this.$emit("getResponeID", this.userInfo);
+    },
 
     // 回复评论
     handleRespone(id) {
-      this.userInfo.nickname = this.data.account.nickname
-      this.userInfo.id = id
+      this.userInfo.nickname = this.data.account.nickname;
+      this.userInfo.id = id;
       // 给父组件传递回复的id、
-      this.$emit('getResponeID',this.userInfo)
+      this.$emit("getResponeID", this.userInfo);
       //将对应的用户名存到store
       // this.$store.commit('postDetail/setFollowId',this.userInfo.nickname)
     }
@@ -147,7 +150,7 @@ export default {
       }
     }
   }
-
+ 
   .respone {
     height: 16px;
     font-size: 12px;
