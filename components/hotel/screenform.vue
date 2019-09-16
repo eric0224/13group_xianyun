@@ -7,7 +7,7 @@
             <el-col :span="24">价格</el-col>
             <el-col :span="24">0-4000</el-col>
           </el-row>
-          <el-slider v-model="value1" :max="4000" style="width:200px;"></el-slider>
+          <el-slider v-model="value1" :max="4000" style="width:200px;" change="hanldPrice"></el-slider>
         </el-col>
         <el-col :span="6" class="xsl-cebian">
           <el-row type="flex" class="xsl-jianju">
@@ -247,6 +247,12 @@ export default {
     };
   },
   methods: {
+    // 价格变化
+    hanldPrice(val){
+      if(val){
+        console.log(123)
+      }
+    },
     // 表格选择
     handleCurrentChange() {}
   },

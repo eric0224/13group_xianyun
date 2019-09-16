@@ -24,7 +24,7 @@
           <!-- 评论展示区 -->
           <CommentBoard v-for="(item,index) in commentsData" :key="index" :data="item"  @getResponeID="getResponeID"/>
         </div>
-
+ 
         <!-- 分页功能 -->
         <el-pagination
           @size-change="handleSizeChange"

@@ -3,7 +3,7 @@ export const state = () => {
         hotelData:{},
         hotelCity:[],
         // 城市名字
-        name: ''
+        name: '',
     }
 }
 
