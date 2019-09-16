@@ -86,9 +86,9 @@ export default {
       this.userInfo.nickname = this.data.account.nickname;
       this.userInfo.id = id;
       // 给父组件传递回复的id、
-      this.$emit("getResponeID", this.userInfo);
-      //将对应的用户名存到store
-      // this.$store.commit('postDetail/setFollowId',this.userInfo.nickname)
+      // this.$emit("getResponeID", this.userInfo);
+      //将信息存到store
+      this.$store.commit('postDetail/setUserInfo',this.userInfo)
     }
   }
 };

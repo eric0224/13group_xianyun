@@ -76,7 +76,9 @@ export default {
     sendData(id) {
       this.userInfo.nickname = this.data.account.nickname;
       this.userInfo.id = id;
-      this.$emit("getComment", this.userInfo);
+      // this.$emit("getComment", this.userInfo);
+      //将信息存到store
+      this.$store.commit('postDetail/setUserInfo',this.userInfo)
     }
   }
 };

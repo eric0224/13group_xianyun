@@ -6,9 +6,9 @@
 
       <el-form :model="form">
         <!-- 回复标签 -->
-        <el-tag class="response" v-if="userInfo.nickname"
+        <el-tag class="response" v-if="$store.state.postDetail.userInfo.nickname"
         closable  @close="handleClose" 
-        >回复:@{{userInfo.nickname}} </el-tag>
+        >回复:@{{$store.state.postDetail.userInfo.nickname}} </el-tag>
         <!-- 编辑评论 -->
         <el-input
           class="textarea"
@@ -66,10 +66,13 @@ export default {
   methods: {
     //移除标签的事件
     handleClose(){
-      //清空store中的nickname
-     this.userInfo.nickname = ''
-     this.userInfo.id = ''
+    //   //清空store中的nickname
+    //  this.userInfo.nickname = ''
+    //  this.userInfo.id = ''
     //  this.$emit('updateComments')
+    // this.$store.state.postDetail.userInfo.nickname = ''
+    // this.$store.state.postDetail.userInfo.id = ''
+       this.$store.commit('postDetail/clearUserInfo','','')
     },
  
     //文件上传成功的事件
@@ -109,8 +112,8 @@ export default {
         // console.log(this.form.pics)
         const {id} = this.$route.query
         this.form.post = id
-        if(this.userInfo.id){
-          this.form.follow = this.userInfo.id
+        if(this.$store.state.postDetail.userInfo.id){
+          this.form.follow = this.$store.state.postDetail.userInfo.id
         }else{
           delete this.form.follow
         }
@@ -128,8 +131,12 @@ export default {
           this.form.content = ''
           this.form.pics = []
           this.$refs.imgUpload.clearFiles()
+          this.handleClose()
       })
     }
+  },
+  mounted(){
+    // this.handleClose()
   }
 };
 </script>
