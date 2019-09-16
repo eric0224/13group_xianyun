@@ -1,7 +1,7 @@
 <template>
   <div class="right">
     <div class="search">
-      <input type="text" placeholder="请输入想去的地方,比如:'广州" v-model="search" @keyup.13="init"/>
+      <input type="text" placeholder="请输入想去的地方,比如:'广州" v-model="search" @keyup.13="init" />
       <i class="el-icon-search" @click="init"></i>
     </div>
     <div class="recomm">
@@ -15,7 +15,9 @@
         <h4>推荐攻略</h4>
       </el-col>
       <el-col :span="4" style="width:102px">
-        <nuxt-link to="/post/create"><el-button type="primary" icon="el-icon-edit">写游记</el-button></nuxt-link>
+        <nuxt-link to="/post/create">
+          <el-button type="primary" icon="el-icon-edit">写游记</el-button>
+        </nuxt-link>
       </el-col>
     </el-row>
     <el-row class="line">
@@ -115,7 +117,7 @@ export default {
       pageNum: 1,
       pageSize: 3,
       total: 0,
-      search: [],
+      // search: [],
       articleList: [],
       articleList1: []
     };
@@ -125,12 +127,25 @@ export default {
     $route() {
       // 请求航班列表数据
       this.getData();
+    },
+    search() {
+      this.init();
+    }
+  },
+  computed: {
+    search: {
+      set(nv) {
+        this.$store.commit("post/setPostData", nv);
+      },
+      get() {
+        // this.init()
+        return this.$store.state.post.postData;
+      }
     }
   },
   methods: {
-    assignmentBtn(value){
-      this.search=value
-      this.init()
+    assignmentBtn(value) {
+      this.$store.commit("post/setPostData", value);
     },
     handleSizeChange(val) {
       this.pageSize = val;
@@ -150,7 +165,7 @@ export default {
         url: "/posts",
         params: { city: this.search }
       }).then(res => {
-        console.log(res);
+        // console.log(res);
         this.total = res.data.total;
         this.articleList = res.data.data;
         this.articleList1 = this.articleList.slice(0, this.pageSize);

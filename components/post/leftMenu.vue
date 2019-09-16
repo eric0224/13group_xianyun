@@ -27,6 +27,7 @@
           class="menu-details-items"
           v-for="(item1,index) in menuList[currentTab].children"
           :key="index"
+          @click="citySearch(item1.city)"
         >
           <span>{{index+1}}</span>
           <span>{{item1.city}}</span>
@@ -48,6 +49,9 @@ export default {
   methods: {
     addActive(e) {
       this.currentTab = e.target.dataset.id;
+    },
+    citySearch(value){
+      this.$store.commit('post/setPostData',value)
     }
   },
   mounted() {
