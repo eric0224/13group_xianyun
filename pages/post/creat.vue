@@ -57,7 +57,9 @@
 <script>
 export default {
   data() {
+    
     return {
+      input:'',
       content: '<p>I am Example</p>',
         editorOption: {
           // some quill options
