@@ -147,88 +147,98 @@
     </div>
     <!-- 酒店列表 -->
     <div class="hotel-list">
-      <el-row type="flex" justify="space-between" v-for="(item,index) in $store.state.hotel.hotelData.data" in :key="index">
-        <el-col :span="8">
-          <nuxt-link to="#">
-            <img :src="`${item.photos}`" />
-          </nuxt-link>
-        </el-col>
-        <el-col :span="10">
-          <h4>{{item.name}}</h4>
-          <div class="xsl-xiangqing">
-            <span class="xsl-yingwen">{{item.alias}}</span>
-            <span>
-              <i class="iconfont iconhuangguan"></i>
-              <i class="iconfont iconhuangguan"></i>
-              <i class="iconfont iconhuangguan"></i>
-            </span>
-            <span class="xsl-yingwen">经济型</span>
-          </div>
+      <el-row
+        type="flex"
+        justify="space-between"
+        v-for="(item,index) in $store.state.hotel.hotelData.data"
+        in
+        :key="index"
+      >
+        <nuxt-link :to="`details/?id=${item.id}`">
           <el-row type="flex" justify="space-between">
-            <el-col :span="10">
-              <i class="el-rate__icon el-icon-star-on"></i>
-              <i class="el-rate__icon el-icon-star-on"></i>
-              <i class="el-rate__icon el-icon-star-on"></i>
-              <i class="el-rate__icon el-icon-star-on"></i>
-              <i class="el-rate__icon el-icon-star-on"></i>
-              <span style="font-size:16px;">{{item.stars}}分</span>
+            <el-col :span="8" style="width:330px;margin-right:15px">
+              <nuxt-link to="#">
+                <img :src="`${item.photos}`" />
+              </nuxt-link>
             </el-col>
-            <el-col :span="7">
-              <i>{{item.very_good_remarks}}</i> 条评论
+            <el-col :span="10" style="width:410px;margin-right:20px">
+              <h4>{{item.name}}</h4>
+              <div class="xsl-xiangqing">
+                <span class="xsl-yingwen">{{item.alias}}</span>
+                <span>
+                  <i class="iconfont iconhuangguan"></i>
+                  <i class="iconfont iconhuangguan"></i>
+                  <i class="iconfont iconhuangguan"></i>
+                </span>
+                <span class="xsl-yingwen">经济型</span>
+              </div>
+              <el-row type="flex" justify="space-between">
+                <el-col :span="10">
+                  <i class="el-rate__icon el-icon-star-on"></i>
+                  <i class="el-rate__icon el-icon-star-on"></i>
+                  <i class="el-rate__icon el-icon-star-on"></i>
+                  <i class="el-rate__icon el-icon-star-on"></i>
+                  <i class="el-rate__icon el-icon-star-on"></i>
+                  <span style="font-size:16px;">{{item.stars}}分</span>
+                </el-col>
+                <el-col :span="7">
+                  <i>{{item.very_good_remarks}}</i> 条评论
+                </el-col>
+                <el-col :span="7">
+                  <i>75</i> 篇游记
+                </el-col>
+              </el-row>
+              <el-row type="flex" class="xsl-huise">
+                <i class="iconfont iconlocation" style="color:#666666;"></i>
+                {{item.address}}
+              </el-row>
             </el-col>
-            <el-col :span="7">
-              <i>75</i> 篇游记
+            <el-col :span="6" style="margin-left:10px;">
+              <nuxt-link to="#">
+                <el-row
+                  type="flex"
+                  justify="space-between"
+                  style="padding: 15px 10px;color:#606266;font-size:16px;border-bottom: 1px solid #ebeef5;"
+                  class="xsl-tiaoz"
+                >
+                  <el-col :span="24" style="font-size:14px;">{{item.products[0].name}}</el-col>
+                  <el-col :span="24">
+                    <i>￥{{item.products[0].price}}</i>起
+                    <i class="el-icon-arrow-right" style="color:#000;"></i>
+                  </el-col>
+                </el-row>
+              </nuxt-link>
+              <nuxt-link to="https://hotels.ctrip.com/hotel/694679.html">
+                <el-row
+                  type="flex"
+                  justify="space-between"
+                  style="padding: 15px 10px;color:#606266;font-size:16px;border-bottom: 1px solid #ebeef5;"
+                  class="xsl-tiaoz"
+                >
+                  <el-col :span="24" style="font-size:14px;">艺龙</el-col>
+                  <el-col :span="24">
+                    <i>￥{{item.products[1].price}}</i>起
+                    <i class="el-icon-arrow-right" style="color:#000;"></i>
+                  </el-col>
+                </el-row>
+              </nuxt-link>
+              <nuxt-link to="https://hotels.ctrip.com/hotel/694679.html">
+                <el-row
+                  type="flex"
+                  justify="space-between"
+                  style="padding: 15px 10px;color:#606266;font-size:16px;border-bottom: 1px solid #ebeef5;"
+                  class="xsl-tiaoz"
+                >
+                  <el-col :span="24" style="font-size:14px;">Hotels.com</el-col>
+                  <el-col :span="24">
+                    <i>￥{{item.products[2].price}}</i>起
+                    <i class="el-icon-arrow-right" style="color:#000;"></i>
+                  </el-col>
+                </el-row>
+              </nuxt-link>
             </el-col>
           </el-row>
-          <el-row type="flex" class="xsl-huise">
-            <i class="iconfont iconlocation" style="color:#666666;"></i>
-            {{item.address}}
-          </el-row>
-        </el-col>
-        <el-col :span="6" style="margin-left:10px;">
-          <nuxt-link to="#">
-            <el-row
-              type="flex"
-              justify="space-between"
-              style="padding: 15px 10px;color:#606266;font-size:16px;border-bottom: 1px solid #ebeef5;"
-              class="xsl-tiaoz"
-            >
-              <el-col :span="24" style="font-size:14px;">{{item.products[0].name}}</el-col>
-              <el-col :span="24">
-                <i>￥{{item.products[0].price}}</i>起
-                <i class="el-icon-arrow-right" style="color:#000;"></i>
-              </el-col>
-            </el-row>
-          </nuxt-link>
-          <nuxt-link to="#">
-            <el-row
-              type="flex"
-              justify="space-between"
-              style="padding: 15px 10px;color:#606266;font-size:16px;border-bottom: 1px solid #ebeef5;"
-              class="xsl-tiaoz"
-            >
-              <el-col :span="24" style="font-size:14px;">艺龙</el-col>
-              <el-col :span="24">
-                <i>￥{{item.products[1].price}}</i>起
-                <i class="el-icon-arrow-right" style="color:#000;"></i>
-              </el-col>
-            </el-row>
-          </nuxt-link>
-          <nuxt-link to="#">
-            <el-row
-              type="flex"
-              justify="space-between"
-              style="padding: 15px 10px;color:#606266;font-size:16px;border-bottom: 1px solid #ebeef5;"
-              class="xsl-tiaoz"
-            >
-              <el-col :span="24" style="font-size:14px;">Hotels.com</el-col>
-              <el-col :span="24">
-                <i>￥{{item.products[2].price}}</i>起
-                <i class="el-icon-arrow-right" style="color:#000;"></i>
-              </el-col>
-            </el-row>
-          </nuxt-link>
-        </el-col>
+        </nuxt-link>
       </el-row>
     </div>
   </div>
@@ -248,9 +258,9 @@ export default {
   },
   methods: {
     // 价格变化
-    hanldPrice(val){
-      if(val){
-        console.log(123)
+    hanldPrice(val) {
+      if (val) {
+        console.log(123);
       }
     },
     // 表格选择
@@ -258,7 +268,6 @@ export default {
   },
   mounted() {
     // console.log(this.$store.state.hotel)
-    
   }
 };
 </script>
