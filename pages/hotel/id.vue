@@ -1,5 +1,6 @@
 <template>
-  <div class="main">
+  <div class="main" >
+    
     <!-- 面包屑导航 -->
     <el-breadcrumb separator-class="el-icon-arrow-right" class="nav"  v-for="(item,index) in hotelData " :key="index">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
@@ -69,7 +70,7 @@
     <div class="map">
       <div id="container"></div>
       <div class="rightBox">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tabs>
           <el-tab-pane label="风景" name="first">
             <div class="com">
               <span>高淳老街</span>
@@ -152,64 +153,50 @@ export default {
     return {
         // 酒店总数据
         hotelData:[],
-        tableData: [],
-        // 酒店地址
-        location:{
-            longitude:118.787727,
-            latitude:32.057976
-        },
-        title:"南京古都文化酒店（鼓楼店）(如家联盟)"
-    };
-  },
+        tableData: []
+        };
+      },
 
   mounted() {
     //   酒店数据2
     this.$axios({
         url:"/hotels/options",
-    }).then((res)=>{
-    console.log(res)
-    })
+      }).then((res)=>{
+      })
 
-    //   酒店数据
-    this.$axios({
-        url:"/hotels",
-        method:"GET",
-        params:{ id:18 },
-    }).then((res)=>{
-        this.hotelData=res.data.data;
-        this.tableData=res.data.data[0].products
-        // this.location= res.data.data[0].location
-        // this.title= res.data.data[0].name
-        console.log(this.title)
-        console.log(this.tableData)
-        console.log(res)
-        console.log(this.hotelData)
-    });
-
-    window.onLoad = function() {
-      var map = new AMap.Map("container", {
-        zoom: 11, //级别
-        center: [118.787727,32.057976 ] //中心点坐标
+      //   酒店数据
+      this.$axios({
+          url:"/hotels",
+          method:"GET",
+          params:{ id:19 },
+      }).then((res)=>{
+          this.hotelData=res.data.data;
+          this.tableData=res.data.data[0].products
       });
 
-      // 点标记
-      // 创建一个 Marker 实例：
-      var marker = new AMap.Marker({
-        position: new AMap.LngLat(118.787727,32.057976 ), // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
-        title: "酒店",
-        image: "https://vdata.amap.com/icons/b18/1/2."
-      });
+      window.onLoad = function() {
+        var map = new AMap.Map("container", {
+          zoom: 11, //级别
+          center: [118.787727,32.057976 ] //中心点坐标
+        });
 
-      // 将创建的点标记添加到已有的地图实例：
-      map.add(marker);
-    };
+        // 点标记
+        // 创建一个 Marker 实例：
+        var marker = new AMap.Marker({
+          position: new AMap.LngLat(118.787727,32.057976 ), // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
+          title: "酒店",
+          image: "https://vdata.amap.com/icons/b18/1/2."
+        });
 
-    var url =
-      "https://webapi.amap.com/maps?v=1.4.15&key=5414b44a6e69c298bada7dba1966a2b4&callback=onLoad";
-    var jsapi = document.createElement("script");
-    jsapi.charset = "utf-8";
-    jsapi.src = url;
-    document.head.appendChild(jsapi);
+        // 将创建的点标记添加到已有的地图实例：
+        map.add(marker);
+      };
+
+      var url ="https://webapi.amap.com/maps?v=1.4.15&key=5414b44a6e69c298bada7dba1966a2b4&callback=onLoad";
+      var jsapi = document.createElement("script");
+      jsapi.charset = "utf-8";
+      jsapi.src = url;
+      document.head.appendChild(jsapi);
   }
 };
 </script>
