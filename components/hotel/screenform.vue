@@ -154,7 +154,7 @@
         in
         :key="index"
       >
-        <nuxt-link :to="`details/?id=${item.id}`">
+        <nuxt-link :to="`hotel/details/?id=${item.id}`">
           <el-row type="flex" justify="space-between">
             <el-col :span="8" style="width:330px;margin-right:15px">
               <nuxt-link to="#">
@@ -267,7 +267,7 @@ export default {
     handleCurrentChange() {}
   },
   mounted() {
-    // console.log(this.$store.state.hotel)
+    console.log(this.$store.state.hotel.hotelData.data)
   }
 };
 </script>
