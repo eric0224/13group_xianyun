@@ -18,10 +18,10 @@
 
       <div class="recomm-city">
         <h4>推荐城市</h4>
-        <nuxt-link to="#"><img src="http://157.122.54.189:9093/images/pic_sea.jpeg" alt=""></nuxt-link>
+        <nuxt-link to="#">
+          <img src="http://157.122.54.189:9093/images/pic_sea.jpeg" alt />
+        </nuxt-link>
       </div>
-
-
       <div class="menu-details" v-if="currentTab!=(-1)">
         <div
           class="menu-details-items"
@@ -29,9 +29,11 @@
           :key="index"
           @click="citySearch(item1.city)"
         >
-          <span>{{index+1}}</span>
-          <span>{{item1.city}}</span>
-          <span>{{item1.desc}}</span>
+          <nuxt-link :to="`/post?city=${item1.city}`">
+            <span>{{index+1}}</span>
+            <span>{{item1.city}}</span>
+            <span>{{item1.desc}}</span>
+          </nuxt-link>
         </div>
       </div>
     </div>
@@ -46,12 +48,26 @@ export default {
       currentTab: -1
     };
   },
+
   methods: {
     addActive(e) {
       this.currentTab = e.target.dataset.id;
     },
-    citySearch(value){
-      this.$store.commit('post/setPostData',value)
+    init() {
+      
+    },
+    citySearch(value) {
+      // this.init()
+      this.$axios({
+        url: "/posts",
+        params: { city: this.search ? value : undefined }
+        // params: { city: this.$route.query.city }
+      }).then(res => {
+        console.log(this.$route.query.city);
+        this.total = res.data.total;
+        this.articleList = res.data.data;
+        this.articleList1 = this.articleList.slice(0, this.pageSize);
+      });
     }
   },
   mounted() {
@@ -59,7 +75,7 @@ export default {
       url: "/posts/cities"
     }).then(res => {
       // console.log(res)
-      this.menuList = res.data.data;                                                                                                                                                                                                           
+      this.menuList = res.data.data;
     });
   }
 };
@@ -68,7 +84,7 @@ export default {
 <style lang="less" scoped>
 .menu {
   width: 260px;
-  margin-bottom:10px; 
+  margin-bottom: 10px;
   .menu-item {
     border: 1px solid #ddd;
     box-sizing: border-box;
@@ -130,19 +146,18 @@ export default {
       }
     }
   }
-  .recomm-city{
+  .recomm-city {
     margin-top: 10px;
-    h4{
+    h4 {
       font-size: 16px;
       padding: 10px 0;
       font-weight: normal;
       border-bottom: 1px solid #ddd;
-      margin-bottom:10px; 
+      margin-bottom: 10px;
     }
-    img{
+    img {
       width: 260px;
     }
-
   }
 }
 
