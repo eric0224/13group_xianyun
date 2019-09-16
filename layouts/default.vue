@@ -47,4 +47,20 @@ a{
   text-decoration: none;
  
 }
+
+.clearfix::before,
+.clearfix::after{
+  content: "";
+  clear: both;
+  display: block;
+  overflow: hidden;
+  font-size: 0;
+  height: 0;
+}
+.fl{
+  float: left;
+}
+.fr{
+  float: right;
+}
 </style>
