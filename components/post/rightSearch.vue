@@ -163,7 +163,7 @@ export default {
     init() {
       this.$axios({
         url: "/posts",
-        params: { city: this.search }
+        params: { city: this.search ? this.search : undefined }
       }).then(res => {
         // console.log(res);
         this.total = res.data.total;
