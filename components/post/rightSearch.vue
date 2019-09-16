@@ -1,8 +1,8 @@
 <template>
   <div class="right">
     <div class="search">
-      <input type="text" placeholder="请输入想去的地方,比如:'广州" v-model="search" @keyup.13="init" />
-      <i class="el-icon-search" @click="init"></i>
+      <input type="text" placeholder="请输入想去的地方,比如:'广州" v-model="search" @keyup.13="init1" />
+      <i class="el-icon-search" @click="init1"></i>
     </div>
     <div class="recomm">
       <span>推荐:</span>
@@ -117,7 +117,7 @@ export default {
       pageNum: 1,
       pageSize: 3,
       total: 0,
-      // search: [],
+      search: [],
       articleList: [],
       articleList1: []
     };
@@ -126,26 +126,28 @@ export default {
     // watch可以监听this下的所有属性
     $route() {
       // 请求航班列表数据
-      this.getData();
+      // this.getData();
+      this.init();
     },
     search() {
-      this.init();
+      this.init1();
     }
   },
-  computed: {
-    search: {
-      set(nv) {
-        this.$store.commit("post/setPostData", nv);
-      },
-      get() {
-        // this.init()
-        return this.$store.state.post.postData;
-      }
-    }
-  },
+  // computed: {
+  //   search: {
+  //     set(nv) {
+  //       this.search=nv
+  //     },
+  //     get() {
+  //       // this.init()
+  //       return this.$route.query.city;
+  //     }
+  //   }
+  // },
   methods: {
     assignmentBtn(value) {
-      this.$store.commit("post/setPostData", value);
+      this.search=value
+      this.init1()
     },
     handleSizeChange(val) {
       this.pageSize = val;
@@ -163,9 +165,22 @@ export default {
     init() {
       this.$axios({
         url: "/posts",
-        params: { city: this.search ? this.search : undefined }
+        // params: { city: this.search ? this.search : undefined }
+        params: { city: this.$route.query.city }
       }).then(res => {
-        // console.log(res);
+        console.log(this.$route.query.city);
+        this.total = res.data.total;
+        this.articleList = res.data.data;
+        this.articleList1 = this.articleList.slice(0, this.pageSize);
+      });
+    },
+    init1() {
+      this.$axios({
+        url: "/posts",
+        params: { city: this.search ? this.search : undefined }
+        // params: { city: this.$route.query.city }
+      }).then(res => {
+        // console.log(this.$route.query.city);
         this.total = res.data.total;
         this.articleList = res.data.data;
         this.articleList1 = this.articleList.slice(0, this.pageSize);
@@ -173,7 +188,7 @@ export default {
     }
   },
   mounted() {
-    this.init();
+    this.init1();
   }
 };
 </script>
