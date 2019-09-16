@@ -68,6 +68,7 @@ export default {
     handleClose(){
       //清空store中的nickname
      this.userInfo.nickname = ''
+     this.userInfo.id = ''
     //  this.$emit('updateComments')
     },
  
@@ -110,6 +111,8 @@ export default {
         this.form.post = id
         if(this.userInfo.id){
           this.form.follow = this.userInfo.id
+        }else{
+          delete this.form.follow
         }
       this.$axios({
           url:'/comments',
