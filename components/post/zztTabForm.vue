@@ -2,133 +2,21 @@
 <template>
   <div class="tab">
     <!-- tab栏 -->
-    <!-- <div
-      class="zzt_tabcontentone"
-      v-for="(item, index) in tabData"
-      :key="index"
-      @mouseover="handleClick(index)"
-      @mouseout="current=false"
-      :class="{ active: current === index}"
-    >
-      <span>{{item}}</span>
-      <i class="ki el-icon-arrow-right"></i>
-    </div>-->
-    <!-- hover显示的内容 -->
-    <!-- <div class="hoverNav" >
-      <div v-show="current === 0" class="hoverNavs" @mouseover="current=true">
-        <ul>
-          <li>
-            <i>1</i> 北京
-            <span></span>
-            <router-link to="#">世界著名古都和现代化国际城市</router-link>
-          </li>
-          <li>
-            <i>2</i> 广州
-            <span>粤港澳大湾区、泛珠江三角洲经济区</span>
-          </li>
-          <li>
-            <i>3</i> 上海
-            <span>长江入海口，东隔东中国海</span>
-          </li>
-          <li>
-            <i>4</i> 成都
-            <span>国家历史文化名城</span>
-          </li>
-          <li>
-            <i>5</i> 西安
-            <span>中国国际形象最佳城市之一</span>
-          </li>
-        </ul>
+    <div class="tabs" @mouseleave="currents=false">
+      <div
+        class="zzt_tabcontentone"
+        v-for="(item, index) in tabsData"
+        :key="index"
+        :class="{active: current === index}"
+        @mouseenter="handleHover(index)"
+      >
+        <!-- @mouseout="currents=false" -->
+        <span>{{item.type}}</span>
+        <i class="ki el-icon-arrow-right"></i>
       </div>
-
-      <div v-show="current === 1" class="hoverNavs">
-        <ul>
-          <li>
-            <i>1</i> 青岛
-            <span>滨海度假旅游城市</span>
-          </li>
-          <li>
-            <i>2</i> 杭州
-            <span>西湖十景</span>
-          </li>
-          <li>
-            <i>3</i> 深圳
-            <span>世界影响力的创新创意之都</span>
-          </li>
-          <li>
-            <i>4</i> 广州
-            <span>粤港澳大湾区、泛珠江三角洲经济区</span>
-          </li>
-          <li>
-            <i>5</i> 成都
-            <span>国家历史文化名城</span>
-          </li>
-        </ul>
-      </div>
-
-      <div v-show="current === 2" class="hoverNavs">
-        <ul>
-          <li>
-            <i>1</i> 秦皇岛
-            <span>驰名中外的旅游休闲胜地</span>
-          </li>
-          <li>
-            <i>2</i> 青岛
-            <span>滨海度假旅游城市</span>
-          </li>
-          <li>
-            <i>3</i> 珠海
-            <span>浪漫之城，百岛之市婚</span>
-          </li>
-          <li>
-            <i>4</i> 深圳
-            <span>世界影响力的创新创意之都</span>
-          </li>
-          <li>
-            <i>5</i> 海口
-            <span>海滨自然旖旎风光</span>
-          </li>
-        </ul>
-      </div>
-      <div v-show="current === 3" class="hoverNavs">
-        <ul>
-          <li>
-            <i>1</i> 海口
-            <span>海滨自然旖旎风光</span>
-          </li>
-          <li>
-            <i>2</i> 广州
-            <span>粤港澳大湾区、泛珠江三角洲经济区</span>
-          </li>
-          <li>
-            <i>3</i> 上海
-            <span>长江入海口，东隔东中国海</span>
-          </li>
-          <li>
-            <i>4</i> 珠海
-            <span>浪漫之城，百岛之市</span>
-          </li>
-          <li>
-            <i>5</i> 西安
-            <span>中国国际形象最佳城市之一</span>
-          </li>
-        </ul>
-      </div>
-    </div>-->
-    <!-- tab栏 -->
-    <div
-      class="zzt_tabcontentone"
-      v-for="(item, index) in tabsData"
-      :key="index"
-      :class="{ active: currents === index}"
-      @mouseover="handleHover(index)"
-      @mouseout="currents=false"
-    >
-      <span>{{item.type}}</span>
-      <i class="ki el-icon-arrow-right"></i>
       <!-- 显示栏 -->
       <div class="hoverNav">
-        <el-row
+        <div
           type="flex"
           justify="space-between"
           v-for="(item2,index2) in (tabsData[currents]&&tabsData[currents].children)"
@@ -136,10 +24,10 @@
           class="hoverNavs"
           v-show="isShow"
         >
-          <el-col :span="2">{{index2+1}}</el-col>
-          <el-col :span="4">{{item2.city}}</el-col>
-          <el-col :span="18">{{item2.desc}}</el-col>
-        </el-row>
+          <i>{{index2+1}}</i>&nbsp;&nbsp;
+          <nuxt-link to class="zzt-xiahuax">{{item2.city}}</nuxt-link>&nbsp;&nbsp;&nbsp;
+          <nuxt-link to style="color:#b39999;">{{item2.desc}}</nuxt-link>
+        </div>
       </div>
     </div>
 
@@ -177,7 +65,7 @@ export default {
     this.$axios({
       url: "/posts/cities"
     }).then(res => {
-      console.log(res);
+      // console.log(res);
       this.tabsData = res.data.data;
     });
   }
@@ -186,72 +74,65 @@ export default {
 
 <style lang="less" scoped>
 .tab {
-  position: relative;
-  .zzt_tabcontentone {
-    width: 260px;
-    box-sizing: border-box;
-    z-index: 2;
-    border: 1px solid #ddd;
-    &:not(:nth-child(4)) {
-      border-bottom: none;
-    }
-    &:hover {
-      border-right: none;
-      background: #fff;
-    }
-    span {
-      line-height: 40px;
-      font-size: 14px;
-      padding-left: 20px;
-    }
-    .ki {
-      float: right;
-      padding-right: 10px;
-      line-height: 40px;
+  .tabs {
+    position: relative;
+    .zzt_tabcontentone {
+      position: relative;
+      width: 260px;
+      box-sizing: border-box;
+      z-index: 3;
+      border: 1px solid #ddd;
+      cursor: pointer;
+      &:not(:nth-child(4)) {
+        border-bottom: none;
+      }
+      &:hover {
+        border-right: none;
+        background: #fff;
+      }
+      .active {
+        color: #ffa500;
+      }
+      span {
+        line-height: 40px;
+        font-size: 14px;
+        padding-left: 20px;
+      }
+      .ki {
+        float: right;
+        padding-right: 10px;
+        line-height: 40px;
+      }
     }
     .hoverNav {
       position: absolute;
       top: 0px;
       left: 259px;
       background: #fff;
-      width: 310px;
-      z-index: 1;
-       border: 1px solid #ddd;
+      z-index: 2;
+      border: 1px solid #ddd;
       .hoverNavs {
+        width: 310px;
         line-height: 40px;
         font-size: 14px;
-        
+        padding-left: 10px;
+        .zzt-xiahuax{
+          color: orange;
+          &:hover{
+            border-bottom: 1px solid orange;
+          }
+        }
+        i {
+          font-style: italic;
+          font-size: 18px;
+          color: #ffa500;
+        }
+        .nuxt-link-active {
+          text-decoration: 1px;
+        }
       }
     }
   }
-
-  // .hoverNav {
-  //   position: absolute;
-  //   top: 0px;
-  //   left: 259px;
-  //   background: #fff;
-  //   width: 300px;
-  //   z-index: 1;
-
-  //   .hoverNavs {
-  //     border: 1px solid #dddddd;
-  //     ul {
-  //       li {
-  //         padding-left: 10px;
-  //         i {
-  //           font-style: italic;
-  //           font-size: 20px;
-  //           color: #ffa500;
-  //         }
-  //         line-height: 40px;
-  //         font-size: 14px;
-  //         span {
-  //           color: #999;
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
 
   .zzt_tabbottom {
     width: 260px;

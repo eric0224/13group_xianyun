@@ -27,9 +27,9 @@ export default {
     'element-ui/lib/theme-chalk/index.css',
     'assets/main.css',
     // 新增自定义的页面过渡样式（文件来自3.4.1）
-    'quill/dist/quill.snow.css',
-    'quill/dist/quill.bubble.css',
-    'quill/dist/quill.core.css'
+    // 'quill/dist/quill.snow.css',
+    // 'quill/dist/quill.bubble.css',
+    // 'quill/dist/quill.core.css'
   ],
   /*
   ** Plugins to load before mounting the App
@@ -39,7 +39,7 @@ export default {
     { src: '~/plugins/localStorage.js', ssr: false },
     '@/plugins/axios',//调用插件
 
-    { src: "~plugins/vue-quill-editor.js", ssr: false },
+    // { src: "~plugins/vue-quill-editor.js", ssr: false },
 
   ],
 
