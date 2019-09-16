@@ -36,7 +36,7 @@
   </div>
 </template>
  
-
+ 
 <script>
 
 import {timeFormat} from '@/plugins/timeFormat'
