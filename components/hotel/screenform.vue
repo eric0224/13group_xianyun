@@ -147,18 +147,16 @@
     </div>
     <!-- 酒店列表 -->
     <div class="hotel-list">
-      <el-row type="flex" justify="space-between">
+      <el-row type="flex" justify="space-between" v-for="(item,index) in $store.state.hotel.hotelData.data" in :key="index">
         <el-col :span="8">
           <nuxt-link to="#">
-            <img
-              src="http://qcloud.dpfile.com/pc/wQ2ejOSmhB4OoEq1LYPHp_2RhNciyW026YiQFr_EEZsQrI_ZB6abZPwgKDOmI03U3dWYFEM5hoslgWXTJDjSPA.jpg"
-            />
+            <img :src="`${item.photos}`" />
           </nuxt-link>
         </el-col>
         <el-col :span="10">
-          <h4>好来阁商务宾馆</h4>
+          <h4>{{item.name}}</h4>
           <div class="xsl-xiangqing">
-            <span class="xsl-yingwen">hao lai ge shang wu hotel</span>
+            <span class="xsl-yingwen">{{item.alias}}</span>
             <span>
               <i class="iconfont iconhuangguan"></i>
               <i class="iconfont iconhuangguan"></i>
@@ -173,10 +171,10 @@
               <i class="el-rate__icon el-icon-star-on"></i>
               <i class="el-rate__icon el-icon-star-on"></i>
               <i class="el-rate__icon el-icon-star-on"></i>
-              <span style="font-size:16px;">3.5分</span>
+              <span style="font-size:16px;">{{item.stars}}分</span>
             </el-col>
             <el-col :span="7">
-              <i>96</i> 条评论
+              <i>{{item.very_good_remarks}}</i> 条评论
             </el-col>
             <el-col :span="7">
               <i>75</i> 篇游记
@@ -184,7 +182,7 @@
           </el-row>
           <el-row type="flex" class="xsl-huise">
             <i class="iconfont iconlocation" style="color:#666666;"></i>
-            位于: 高淳县淳溪镇镇兴路118号(高淳县委党校对面)
+            {{item.address}}
           </el-row>
         </el-col>
         <el-col :span="6" style="margin-left:10px;">
@@ -195,9 +193,9 @@
               style="padding: 15px 10px;color:#606266;font-size:16px;border-bottom: 1px solid #ebeef5;"
               class="xsl-tiaoz"
             >
-              <el-col :span="24" style="font-size:14px;">携程</el-col>
+              <el-col :span="24" style="font-size:14px;">{{item.products[0].name}}</el-col>
               <el-col :span="24">
-                <i>￥126</i>起
+                <i>￥{{item.products[0].price}}</i>起
                 <i class="el-icon-arrow-right" style="color:#000;"></i>
               </el-col>
             </el-row>
@@ -211,7 +209,7 @@
             >
               <el-col :span="24" style="font-size:14px;">艺龙</el-col>
               <el-col :span="24">
-                <i>￥110</i>起
+                <i>￥{{item.products[1].price}}</i>起
                 <i class="el-icon-arrow-right" style="color:#000;"></i>
               </el-col>
             </el-row>
@@ -225,7 +223,7 @@
             >
               <el-col :span="24" style="font-size:14px;">Hotels.com</el-col>
               <el-col :span="24">
-                <i>￥50</i>起
+                <i>￥{{item.products[2].price}}</i>起
                 <i class="el-icon-arrow-right" style="color:#000;"></i>
               </el-col>
             </el-row>
@@ -240,6 +238,10 @@
 export default {
   data() {
     return {
+      // 总数据
+      hotelData: {},
+      // res.data里面的酒店数据
+      hotelCity: [],
       checked: true,
       value1: [0, 4000]
     };
@@ -247,6 +249,10 @@ export default {
   methods: {
     // 表格选择
     handleCurrentChange() {}
+  },
+  mounted() {
+    // console.log(this.$store.state.hotel)
+    
   }
 };
 </script>
