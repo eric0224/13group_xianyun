@@ -33,7 +33,15 @@
                 v-for="(item,index) in Cityluduan"
                 :key="index"
                 class="xsl-chaolinajie"
+                v-show="index<i"
               >{{item.name}}</nuxt-link>
+              <div class="xsl">
+                <a href="#" @click="xslhanldShow">
+                  <i v-show="i <= 11" class="xsl-tubiao el-icon-d-arrow-right" style="transform: rotate(90deg);color:orange;" ></i>
+                  <i v-show="i > 11" class="xsl-tubiao el-icon-d-arrow-right" style="transform: rotate(270deg);color:orange;" ></i>
+                  等{{Cityluduan.length}}区域
+                </a>
+              </div>
             </el-col>
           </el-row>
           <el-row type="flex" justify="space-between" style="margin-bottom: 20px;">
@@ -44,7 +52,17 @@
             >北京，你想要的都能在这找到。博古通今，兼容并蓄，天下一城，如是帝都。 景点以故宫为中心向四处辐射；地铁便宜通畅，而且覆盖绝大多数景点。 由于早上有天安门升旗仪式，所以大多数人选择在天安门附近住宿。</el-col>
           </el-row>
           <el-row type="flex" justify="space-between" style="margin-bottom: 20px;">
-            <el-col :span="4">均价&nbsp;&nbsp;&nbsp;&nbsp;:</el-col>
+            <el-col :span="4" class="xsl-dingwei">
+              均价&nbsp;&nbsp;&nbsp;&nbsp;:
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content="等级均价由平日价格计算得出，节假日价格会有上浮。"
+                placement="top-start"
+              >
+                <i class="xsl-wen">?</i>
+              </el-tooltip>
+            </el-col>
 
             <el-tooltip
               class="item"
@@ -98,9 +116,6 @@
         </el-col>
       </el-row>
     </div>
-    <el-tooltip class="item" effect="dark" content="等级均价由平日价格计算得出，节假日价格会有上浮。" placement="top-start">
-      <i class="xsl-wen">?</i>
-    </el-tooltip>
   </div>
 </template>
 
@@ -108,6 +123,7 @@
 export default {
   data() {
     return {
+      i: 11,
       Cityluduan: [],
       // 总数据
       hotelData: [],
@@ -117,6 +133,15 @@ export default {
     };
   },
   methods: {
+    // 显示隐藏区域地段
+    xslhanldShow() {
+      if (this.i > 11) {
+        this.i = 11;
+        
+      } else {
+        this.i = 999;
+      }
+    },
     // 目的地输入框的值
     queryDepartSearch(value, cb) {
       if (!value) {
@@ -319,32 +344,29 @@ export default {
       margin-left: 15px;
     }
   }
-  .xsl-wen {
-    display: block;
-    width: 15px;
-    height: 15px;
-    font-size: 12px;
-    border-radius: 50%;
-    background-color: #ccc;
-    text-align: center;
-    color: #ffff;
-    position: absolute;
-    top: 305px;
-    left: 480px;
-  }
   .xsl-wenzi {
     width: 1000px;
     margin-bottom: 20px;
     .xsl-ziti {
       font-size: 14px;
       color: #666666;
+      .xsl-dingwei {
+        position: relative;
+        .xsl-wen {
+          display: block;
+          width: 15px;
+          height: 15px;
+          font-size: 12px;
+          border-radius: 50%;
+          background-color: #ccc;
+          text-align: center;
+          color: #ffff;
+          position: absolute;
+          top: 0px;
+          left: 30px;
+        }
+      }
       .xsl-lianjiekuang {
-        max-width: 430px;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        display: block;
-        float: left;
         .xsl-chaolinajie {
           padding-right: 10px;
           &:hover {
