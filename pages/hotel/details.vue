@@ -60,7 +60,7 @@
     </div>
 
     <!-- 酒店价格 -->
-    <el-table :data="tableData" style="width: 100%" >
+    <el-table :data="tableData" style="width: 100%" @row-click="handClick">
       <el-table-column width="400px" prop="name" label="价格来源"></el-table-column>
       <el-table-column width="400px" prop="bestType" label="低价房型"></el-table-column>
       <el-table-column width="200px" prop="price" label="最低价格/每晚"></el-table-column>
@@ -84,13 +84,28 @@
 
     <!-- 基本信息 -->
     <div class="baseInfo" v-for="(item,index) in hotelData" :key="index">
-      <el-row type="flex">
-          <span>基本信息</span>
-          <span>入住时间: 14:00之后</span>
-          <span>离店时间: 12:00之前</span>
-          <span>{{item.creation_time}} / {{item.renovat_time}}</span>
-          <span>酒店规模: {{item.roomCount}}间客房</span>
-      </el-row>
+      <ul style="display:flex">
+        <li>基本信息</li>
+        <li>入住时间: 14:00之后</li>
+        <li>离店时间: 12:00之前</li>
+        <li>{{item.creation_time}} / {{item.renovat_time}}</li>
+        <li>酒店规模: {{item.roomCount}}间客房</li>
+      </ul>
+      <ul style="display:flex">
+        <li>主要设施</li>
+        <el-tag type="info" class="info">外币兑换服务</el-tag>
+        <el-tag type="info" class="info">电梯</el-tag>
+        <el-tag type="info" class="info">洗衣服务</el-tag>
+        <el-tag type="info" class="info">热水壶</el-tag>
+      </ul>
+      <ul style="display:flex">
+        <li>停车服务</li>
+        <li>-</li>
+      </ul>
+      <ul style="display:flex">
+        <li>品牌服务</li>
+        <li>-</li>
+      </ul>
     </div>
 
     <!-- 用户评论 -->
@@ -157,6 +172,12 @@ export default {
         };
       },
 
+      methods: {
+        handClick(){
+          location.href="https://hotels.ctrip.com/hotel/694679.html"
+        }
+      },
+
   mounted() {
     //   酒店数据2
     this.$axios({
@@ -168,7 +189,7 @@ export default {
       this.$axios({
           url:"/hotels",
           method:"GET",
-          params:{ id:19 },
+          params:{ id:this.$route.query.id },
       }).then((res)=>{
           this.hotelData=res.data.data;
           this.tableData=res.data.data[0].products
@@ -265,11 +286,24 @@ export default {
 
   .baseInfo {
     margin: 40px 0;
-    span{
+    ul{
+      font-size: 18px;
+      height: 80px;
+      line-height: 80px;
+      border-bottom: 1px solid #eeeeee;
+      li{
         margin-right: 20px;
+        color: #666666;
         &:nth-child(1){
-            margin-right: 50px;
+          margin-right: 50px;
+          color:black; 
         }
+      }
+      .info{
+        font-size: 18px;
+        margin-top: 22px;
+        margin-right: 10px;
+      }
     }
   }
 
@@ -302,14 +336,15 @@ export default {
           }
         }
         .sales {
+          opacity:0.4;
           position: absolute;
-          top: -10px;
+          top: 5px;
           left: 20px;
           font-size: 25px;
           color: #fa3;
-          width: 100px;
-          height: 100px;
-          line-height: 100px;
+          width: 80px;
+          height: 80px;
+          line-height: 80px;
           text-align: center;
           border-radius: 50%;
           border: 2px solid #fa3;
