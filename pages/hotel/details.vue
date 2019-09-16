@@ -60,7 +60,7 @@
     </div>
 
     <!-- 酒店价格 -->
-    <el-table :data="tableData" style="width: 100%" >
+    <el-table :data="tableData" style="width: 100%" @row-click="handClick">
       <el-table-column width="400px" prop="name" label="价格来源"></el-table-column>
       <el-table-column width="400px" prop="bestType" label="低价房型"></el-table-column>
       <el-table-column width="200px" prop="price" label="最低价格/每晚"></el-table-column>
@@ -170,6 +170,12 @@ export default {
         hotelData:[],
         tableData: []
         };
+      },
+
+      methods: {
+        handClick(){
+          location.href="https://hotels.ctrip.com/hotel/694679.html"
+        }
       },
 
   mounted() {
