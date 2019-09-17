@@ -201,7 +201,7 @@ export default {
           city: "",
           content: ""
         };
-        this.$store.commit("post/setPostData", undefined);
+        // this.$store.commit("post/setPostData", undefined);
         this.$router.replace("/post");
         
       });

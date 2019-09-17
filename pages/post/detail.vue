@@ -78,7 +78,7 @@ export default {
         const { id } = this.$route.query;
         this.$axios({
           url: "/posts/comments",
-          params: { post: id, _limit: this.pageSize, _start: this.currentPage }
+          params: { post: id, _limit: this.pageSize, _start: this.currentPage - 1}
         }).then(res => {
           // console.log(res)
           // 赋值给总数据

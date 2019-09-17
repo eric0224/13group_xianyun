@@ -6,6 +6,7 @@
 export const state = ()=> { 
     return{
         userInfo:{
+            user:{}
         }
     } 
        
